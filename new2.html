@@ -1,4 +1,3 @@
-
 <html>
 <head>
        <!--the following links add the CSS and Javascript require for the Leaflet Map-->
@@ -8,16 +7,128 @@
 	   
 	   <script src='https://unpkg.com/leaflet@1.1.0/dist/leaflet.js'
 	   integrity='sha512-mNqn2Wg7tSToJhvHcqfzLMU6J4mkOImSPTxVZAdo+lcPlk+GhZmYgACEe0x35K7YzW1zJ7XyJV/TT1MrdXvMcA=='
-       crossorigin=''></script>
+       crossorigin=''>
+	   // create a variable that will hold the XMLHttpRequest() - this must be done outside a function so that all thhe functions can use the same variable 
+	   var client;
 	   
+	   // add a variable that weill hold the layer itself - we need to do this outside the function so that we can use it to remove the layer later 
+	   var earthquakelayer;
+	   var getEarthquakes;
+	   
+	   // create the code to get the Earthquakes data using an XMLHttpRequest
+	   function getEarthquakes(){client=new XMLHttpRequest();
+	   client.open('GET','https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson');
+	     client.onreadystatechange=earthquakeResponse;    // dont use earthquakeResponse with brackets as that doesnt work
+	     client.send();}
+	   
+	   // create the code to wait for the response from the data server, and process the response once it is received
+	   function earthquakeResponse(){
+	   // this function listens out for the server to say that the data is ready - i.e. has state 4
+	   if (client.readyState == 4){
+	   // once the data is ready, process the data
+	   var earthquakedata=client.responseText;
+	   loadEarthquakelayer(earthquakedata);}}
+	   
+	   // define a global variable to hold the layer so that we can use it later on var earthquakelayer
+	   var earthquakelayer; 
+	   // convert the received data which is text to JSON format and add it to the map
+	   function loadEarthquakelayer(earthquakedata){
+	   // convert the text received from the server to JSON
+	   var earthquakejson=JSON.parse(earthquakedata);
+	   //load the geoJson layer
+	   earthquakelayer=L.geoJson(earthquakejson,
+	   {
+	   // use point to layer to create the points
+	   pointToLayer:function(feature,latlng)
+	   {
+	   // look at the GeoJSON file - specifically at the properties - to see the earthquake magnitude and use a different marker depending on this value
+	   //also include a pop-up that show the place value of the earthquakes
+	   if (feature.properties.mag>1.75){
+	     return L.marker(latlng,{icon:testMarkerRed}).bindPopup("<b>"+feature.properties.place+"</b>");}
+		 else{
+		 // magnitude is 1.75 or less
+		 return L.marker(latlng,{icon:testMarkerPink}).bindPopup("<b>"+feature.properties.place+"</b>");;}},}).addTo(mymap)
+	   // change the map zoom so that all the data is shown
+	   mymap.fitBounds(earthquakelayer.getBounds());}	   	   
+	   
+	   
+	   </script>   
 	   <!--the following CSS is used to set the size of the Map-->
 	   <style type="text/css">
 	                      #mapid {height:180px;}
 	   </style>
+	   
+	   <!-- the following links incorporate the CSS required for the custom icon creation---->
+	   <link rel="stylesheet" href='ionicons.min.css'>
+	   <link rel="stylesheet" href='leaflet.awesome-markers.css'>
+	   <script src='leaflet.awesome-markers.js'></script>
 <head>
 
-#to write the body here 
 <body>
+
+
+
+
+       <script>
+	   
+	   
+	   // create a variable that will hold the XMLHttpRequest() - this must be done outside a function so that all thhe functions can use the same variable 
+	   var client;
+	   
+	   // add a variable that weill hold the layer itself - we need to do this outside the function so that we can use it to remove the layer later 
+	   var earthquakelayer;
+	   var getEarthquakes;
+	   
+	   // create the code to get the Earthquakes data using an XMLHttpRequest
+	   function getEarthquakes(){client=new XMLHttpRequest();
+	   client.open('GET','https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson');
+	     client.onreadystatechange=earthquakeResponse;    // dont use earthquakeResponse with brackets as that doesnt work
+	     client.send();}
+	   
+	   // create the code to wait for the response from the data server, and process the response once it is received
+	   function earthquakeResponse(){
+	   // this function listens out for the server to say that the data is ready - i.e. has state 4
+	   if (client.readyState == 4){
+	   // once the data is ready, process the data
+	   var earthquakedata=client.responseText;
+	   loadEarthquakelayer(earthquakedata);}}
+	   
+	   // define a global variable to hold the layer so that we can use it later on var earthquakelayer
+	   var earthquakelayer; 
+	   // convert the received data which is text to JSON format and add it to the map
+	   function loadEarthquakelayer(earthquakedata){
+	   // convert the text received from the server to JSON
+	   var earthquakejson=JSON.parse(earthquakedata);
+	   //load the geoJson layer
+	   earthquakelayer=L.geoJson(earthquakejson,
+	   {
+	   // use point to layer to create the points
+	   pointToLayer:function(feature,latlng)
+	   {
+	   // look at the GeoJSON file - specifically at the properties - to see the earthquake magnitude and use a different marker depending on this value
+	   //also include a pop-up that show the place value of the earthquakes
+	   if (feature.properties.mag>1.75){
+	     return L.marker(latlng,{icon:testMarkerRed}).bindPopup("<b>"+feature.properties.place+"</b>");}
+		 else{
+		 // magnitude is 1.75 or less
+		 return L.marker(latlng,{icon:testMarkerPink}).bindPopup("<b>"+feature.properties.place+"</b>");;}},}).addTo(mymap)
+	   // change the map zoom so that all the data is shown
+	   mymap.fitBounds(earthquakelayer.getBounds());}	   	   
+	   
+	   </script> 
+
+
+
+
+
+
+
+
+
+
+
+
+
        <!--the mapid div will hold the map-->
 	   <div id='mapid'style='width:1000px; height:800px;'></div>
 	   
@@ -34,37 +145,49 @@
 	   id:'mapbox.streets'
 	   }).addTo(mymap);
 	   
-	   // create a geoJSON feature - 
-	   var geojsonFeature = {
-	   'type':'Feature',
-	   'properties':{
-	   'name':'London',
-	   'popupContent':'This is where UCL is based'},
-	   'geometry':{
-	   'type':'Point',
-	   'coordinates':[-0.133534, 51.524670]}};
-	   // add it to the map
-	   L.geoJSON(geojsonFeature).addTo(mymap).bindPopup('<b>'+geojsonFeature.properties.name+''+geojsonFeature.properties.popupContent+'<b>');
 	   
-	   //create a custom popup 
-	   var popup=L.popup();
 	   
-	   //create an event detector to wait for the user's click event and then use the popup to show them where they clicked
-	   //note that you dont need to do any complicated maths to convert screen coordinates to real world coordinates - the Leaflet API does this for you
-	   function onMapClick(e){
-	   popup
-	         .setLatLng(e.latlng)
-			 .setContent('you clicked the map at'+e.latlng.toString())
-			 .openOn(mymap);}
-			 
-		// now add the click event detector to the map
-		mymap.on('click',onMapClick)
+	   // add the custom icons
 	   
+	   var testMarkerRed=L.AwesomeMarkers.icon({
+	   icon:'play',
+	   markerColor:'red'});
+	   var testMarkerPink=L.AwesomeMarkers.icon({
+	   icon:'play',
+	   markerColor:'pink'});
+	   
+
+	   document.addEventListener('DOMContentLoaded',function(){getEarthquakes();},false);
+	   
+	   
+
 	   
 	   
 	   </script>
 </body>
 </html>	   
+	  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
