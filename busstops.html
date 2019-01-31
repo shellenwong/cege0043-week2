@@ -27,11 +27,20 @@
 	   <button id='busstops' name='busstops' onclick=='busstops()'>Click here to load data</button>
 	   <button id='removebusstops' name='removebusstops' onclick='removebusstops'>Click to remove</button>
 	   
-
     <script>
+	    function busstops() {
+       //call the getEarthquakes code
+       //keep the alert message so that we know sth. is happening
+       alert ('Loading Earthquakes');getEarthquakes();}
+	   
+	   //make sure that there is a variable for the earthquake layer to be referenced by 
+	   //this should be GLOBAL - i.e. not inside a function - so that any code can see the variable
+	   function rremovebusstops(){alert('Earthquake data will be removed');
+	   mymap.removeLayer(earthquakelayer);}
+
 	   // create a variable for each of the layers we want to load/remove
-	   var earthquakelayer;
-	   var busstoplayer;
+	   //var earthquakelayer;
+	   //var busstoplayer;
 	   // create a variable that will hold the XMLHttpRequest() - this must be done outside a function so that all thhe functions can use the same variable 
 	   var client;
 	   
