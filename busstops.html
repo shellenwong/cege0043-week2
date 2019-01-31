@@ -17,14 +17,13 @@
 
 #to write the body here 
 <body>
-	   <!--the busstoplayer thing-->
-	   <script src='busstops.geojson'></script>
+
 	   <!--div id='busstoplayer'></div-->
        <!--the mapid div will hold the map-->
 	   <div id='mapid'style='width:1000px; height:800px;'></div>
 	   <!--this need to be tested! -->
   
-	   <button id='busstops' name='busstops' onclick=='busstops()'>Click here to load data</button>
+	   <button id='busstops' name='busstops' onclick='busstops'>Click here to load data</button>
 	   <button id='removebusstops' name='removebusstops' onclick='removebusstops'>Click to remove</button>
 	   
     <script>
@@ -35,7 +34,7 @@
 	   
 	   //make sure that there is a variable for the earthquake layer to be referenced by 
 	   //this should be GLOBAL - i.e. not inside a function - so that any code can see the variable
-	   function rremovebusstops(){alert('Earthquake data will be removed');
+	   function removebusstops(){alert('Earthquake data will be removed');
 	   mymap.removeLayer(earthquakelayer);}
 
 	   // create a variable for each of the layers we want to load/remove
