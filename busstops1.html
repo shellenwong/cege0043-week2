@@ -29,30 +29,32 @@
 	   <button id='loadBusstopsData' name='loadBusstopsData' onclick='loadBusstopData()'>Click here to load Bus Stops data</button>
 	   <button id='loadData' name='loadData' onclick='loadEarthquakeData()'>Click here to load the Earthquake data</button>
 	   <button id='removebusstops' name='removebusstops' onclick='removebusstopsData()'>Click to remove Bus Stops</button>
+	   <button id='removeearthquakes',name='removeearthquakes',onclick='removeearthquakesData'>Click to remove Earthquakes Data</button>
+	   <button id='removedata',name='removedata',onclick='removealldata()'>Click here to remove all the data</button>
 
     <script>
 	   var earthquakelayer;
 	   var busstoplayer;
 	   var client;	
 	
-	function loadBusstopData(){alert ('Loading Bus Stops');
+	   function loadBusstopData(){alert ('Loading Bus Stops');
 	   var layername='busstops'; 
        getData(layername);}
 	   
-	function loadEarthquakeData() {
-       //call the getEarthquakes code
-       //keep the alert message so that we know sth. is happening
+	   function loadEarthquakeData() {
        alert ('Loading Earthquakes');
 	   var layername = 'earthquakes';
 	   getData(layername);}
 	   
 	   function removebusstopsData(){alert('Bus Stops data will be removed');
 	   mymap.removeLayer(busstoplayer);}
-	 
-
-
-
-
+	
+	   function removeearthquakesData(){alert('Earthquakes data will be removed');
+	   mymap.removeLayer(earthquakes);}
+	   
+	   function removealldata(){alert('All the data will be removed');
+	   if (loadingBusstops == true){mymap.removeLayer(earthquakelayer);}
+	   if (loadingEarthquakes == true){mymap.removeLayer(busstoplayer);}}
 
 	   // create the code to get the Earthquakes data using an XMLHttpRequest
 	   function getData(layername){client=new XMLHttpRequest();
@@ -95,26 +97,6 @@
 	   earthquakelayer=L.geoJson(earthquakejson).addTo(mymap);
 	   // change the map zoom so that all the data is shown
 	   mymap.fitBounds(earthquakelayer.getBounds());}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 	   
