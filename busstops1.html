@@ -31,13 +31,9 @@
 	   <button id='removebusstops' name='removebusstops' onclick='removebusstopsData()'>Click to remove Bus Stops</button>
 
     <script>
-	
-	   // create a variable for each of the layers we want to load/remove
 	   var earthquakelayer;
 	   var busstoplayer;
-	   // create a variable that will hold the XMLHttpRequest() - this must be done outside a function so that all thhe functions can use the same variable 
 	   var client;	
-
 	
 	function loadBusstopData(){alert ('Loading Bus Stops');
 	   var layername='busstops'; 
@@ -49,6 +45,9 @@
        alert ('Loading Earthquakes');
 	   var layername = 'earthquakes';
 	   getData(layername);}
+	   
+	   function removebusstopsData(){alert('Bus Stops data will be removed');
+	   mymap.removeLayer(busstoplayer);}
 	 
 
 
