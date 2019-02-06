@@ -21,49 +21,41 @@
         <script src="leaflet.awesome-markers.js"></script>
 <head>
 
-#to write the body here 
 <body>
        <!--the mapid div will hold the map-->
 	   <div id='mapid'style='width:1000px; height:800px;'></div>
 	   <!--this need to be tested! -->
 	   
 	   <button id='loadBusstopsData' name='loadBusstopsData' onclick='loadBusstopData()'>Click here to load Bus Stops data</button>
-  
-
-	   
+	   <button id='loadData' name='loadData' onclick='loadEarthquakeData()'>Click here to load the Earthquake data</button>
+	   <button id='removebusstops' name='removebusstops' onclick='removebusstopsData()'>Click to remove Bus Stops</button>
+	   <button id='removeearthquakes' name='removeearthquakes' onclick='removeearthquakesData()'>Click to remove Earthquakes Data</button>
+	   <button id='removedata' name='removedata' onclick='removealldata()'>Click here to remove all the data</button>	 
 
     <script>
-	   // create a variable for each of the layers we want to load/remove
 	   var earthquakelayer;
 	   var busstoplayer;
-	   // create a variable that will hold the XMLHttpRequest() - this must be done outside a function so that all thhe functions can use the same variable 
-	   var client;
-	   
+	   var client;	
+	
 	   function loadBusstopData(){alert ('Loading Bus Stops');
 	   var layername='busstops'; 
        getData(layername);}
 	   
-
 	   function loadEarthquakeData() {
-       //call the getEarthquakes code
-       //keep the alert message so that we know sth. is happening
        alert ('Loading Earthquakes');
 	   var layername = 'earthquakes';
 	   getData(layername);}
-	   
-	   //make sure that there is a variable for the earthquake layer to be referenced by 
-	   //this should be GLOBAL - i.e. not inside a function - so that any code can see the variable
-	   function removeEarthquakeData(){alert('Earthquake data will be removed');
-	   mymap.removeLayer(earthquakelayer);}
-	   
-	   
-	   //make sure that there is a variable for the earthquake layer to be referenced by 
-	   //this should be GLOBAL - i.e. not inside a function - so that any code can see the variable
-	   function removebusstops(){alert('Bus Stops data will be removed');
+	      
+	   function removebusstopsData(){alert('Bus Stops data will be removed');
 	   mymap.removeLayer(busstoplayer);}
-
-
-
+	
+	   function removeearthquakesData(){alert('Earthquakes data will be removed');
+	   mymap.removeLayer(earthquakelayer);}
+	
+	   //function removeearthquakesData(){alert('Earthquakes data will be removed');
+	   //var layername='earthquakelayer'
+	   //mymap.removeLayer(layername);}
+	   
 	   // create the code to get the Earthquakes data using an XMLHttpRequest
 	   function getData(layername){client=new XMLHttpRequest();
 	   //depending on the layername we get different URLs
@@ -71,8 +63,8 @@
 	   if (layername=='earthquakes'){url='https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson'}
 	   if (layername=='busstops'){url='https://developer.cege.ucl.ac.uk:31081/cege0043-week2/busstops.geojson'}
 	   client.open('GET',url);
-	     client.onreadystatechange=dataResponse;    // dont use earthquakeResponse with brackets as that doesnt work
-	     client.send();}
+	   client.onreadystatechange=dataResponse;    // dont use earthquakeResponse with brackets as that doesnt work
+	   client.send();}
 	   
 	   // create the code to wait for the response from the data server, and process the response once it is received
 	   function dataResponse(){
@@ -95,32 +87,14 @@
 	   mymap.fitBounds(earthquakelayer.getBounds());}
 	   if (loadingBusstops===true){busstoplayer=L.geoJson(json).addTo(mymap);
 	   mymap.fitBounds(busstoplayer.getBounds());}
+	   }
 	   
-	   // convert the received data which is text to JSON format and add it to the map
-	   function loadEarthquakelayer(earthquakedata){
-	   // convert the text to JSON
-	   var earthquakejson=JSON.parse(earthquakedata);
-	   //add the JSON layer onto the map - it will appear using the default icons
-	   earthquakelayer=L.geoJson(earthquakejson).addTo(mymap);
-	   // change the map zoom so that all the data is shown
-	   mymap.fitBounds(earthquakelayer.getBounds());}	   
-
-    </script>
-	
-	
-	   <button id='loadbusstops' name='loadbusstops' onclick='loadbusstops()'>Click here to load data</button>
-	   <button id='removebusstops' name='removebusstops' onclick='removebusstops()'>Click to remove</button>
+	   function removealldata(){
+	   if (loadingBusstops = true) {alert("All the data will be removed");mymap.removeLayer(busstoplayer);}
+	   if (loadingEarthquakes = true){alert("All the data will be removed");mymap.removeLayer(earthquakelayer);}}
 	   
-	   <button id='loadData' name='loadData' onclick='loadEarthquakeData()'>Click here to load the data</button>
-	   <!--the remove button-->
-	   <button id='removeEarthquakeData' name='removeEarthquakeData'
-	   onclick='removeEarthquakeData()'>Click here to remove the Earthquake data</button>	
-	
-	
-	
-	
-
-
+	 </script>
+	 	 
 	   <!--the following script will load the map and set the default view and zoom, as well as loading the basemap tiles-->
 	   <script>
 	   //load the map
@@ -132,6 +106,46 @@
 	   id:'mapbox.streets'
 	   }).addTo(mymap);
 	   </script>
+		 
 </body>
-</html>	   
+</html>	  	 
+	 
+	 
+	 
+	 
+	 
+	 
 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
